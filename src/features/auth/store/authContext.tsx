@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 
 export type User = {
@@ -46,14 +46,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        const token = await SecureStore.getItemAsync(TOKEN_KEY);
-        const storedUser = await SecureStore.getItemAsync(USER_KEY);
+        const token = await AsyncStorage.getItem(TOKEN_KEY);
+        const storedUser = await AsyncStorage.getItem(USER_KEY);
         if (token && storedUser) {
           setUser(JSON.parse(storedUser));
         }
       } catch {
-        await SecureStore.deleteItemAsync(TOKEN_KEY);
-        await SecureStore.deleteItemAsync(USER_KEY);
+        await AsyncStorage.removeItem(TOKEN_KEY);
+        await AsyncStorage.removeItem(USER_KEY);
       } finally {
         setIsLoading(false);
       }
@@ -62,14 +62,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = useCallback(async (token: string) => {
     const userInfo = await fetchGoogleUserInfo(token);
-    await SecureStore.setItemAsync(TOKEN_KEY, token);
-    await SecureStore.setItemAsync(USER_KEY, JSON.stringify(userInfo));
+    await AsyncStorage.setItem(TOKEN_KEY, token);
+    await AsyncStorage.setItem(USER_KEY, JSON.stringify(userInfo));
     setUser(userInfo);
   }, []);
 
   const signOut = useCallback(async () => {
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
-    await SecureStore.deleteItemAsync(USER_KEY);
+    await AsyncStorage.removeItem(TOKEN_KEY);
+    await AsyncStorage.removeItem(USER_KEY);
     setUser(null);
   }, []);
 

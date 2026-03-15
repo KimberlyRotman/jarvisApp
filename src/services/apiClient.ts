@@ -1,9 +1,9 @@
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BASE_URL = 'https://api.example.com'; // Replace with your API URL
 
 async function getAuthToken(): Promise<string | null> {
-  return SecureStore.getItemAsync('auth_token');
+  return AsyncStorage.getItem('auth_token');
 }
 
 type RequestOptions = {
