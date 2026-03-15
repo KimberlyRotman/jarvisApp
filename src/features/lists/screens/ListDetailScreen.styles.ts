@@ -18,13 +18,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  backButton: {
+  menuButton: {
     padding: 8,
   },
-  backText: {
-    color: AppColors.accentYellow,
-    fontSize: 24,
-    fontWeight: '700',
+  menuIcon: {
+    width: 26,
+    height: 26,
   },
   headerTitle: {
     fontSize: 20,
@@ -38,42 +37,30 @@ export const styles = StyleSheet.create({
   addIcon: {
     width: 24,
     height: 24,
-    tintColor: AppColors.accentYellow,
   },
-  listItem: {
+  card: {
+    backgroundColor: AppColors.accentDark,
+    borderRadius: 12,
+    marginHorizontal: 16,
+    marginTop: 12,
+    padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderWidth: 1,
+    borderColor: '#3a3600',
   },
-  checkbox: {
-    width: 22,
-    height: 22,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: AppColors.accentYellow,
-    marginRight: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checkboxChecked: {
-    backgroundColor: AppColors.accentYellow,
-  },
-  checkMark: {
-    color: AppColors.backgroundPrimary,
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  itemText: {
+  cardContent: {
     flex: 1,
-    color: AppColors.white,
-    fontSize: 16,
   },
-  itemTextChecked: {
-    textDecorationLine: 'line-through',
+  cardTitle: {
+    color: '#b4b4b4',
+    fontSize: 16,
+    fontFamily: 'Arimo_700Bold',
+  },
+  cardDate: {
     color: AppColors.gray,
+    fontSize: 12,
+    marginTop: 4,
   },
   deleteButton: {
     padding: 8,

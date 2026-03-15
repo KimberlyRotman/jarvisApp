@@ -9,6 +9,7 @@ type ListsContextType = {
   removeList: (id: string) => void;
   addItem: (listId: string, text: string) => void;
   removeItem: (listId: string, itemId: string) => void;
+  removeItemByText: (listName: string, itemText: string) => void;
   toggleItem: (listId: string, itemId: string) => void;
   findOrCreateList: (name: string) => string;
 };
@@ -19,6 +20,7 @@ export const ListsContext = createContext<ListsContextType>({
   removeList: () => {},
   addItem: () => {},
   removeItem: () => {},
+  removeItemByText: () => {},
   toggleItem: () => {},
   findOrCreateList: () => '',
 });
@@ -58,7 +60,7 @@ export function ListsProvider({ children }: { children: React.ReactNode }) {
     (listId: string, text: string) => {
       const updated = lists.map((l) => {
         if (l.id !== listId) return l;
-        const item: ListItem = { id: generateId(), text, checked: false };
+        const item: ListItem = { id: generateId(), text, checked: false, createdAt: new Date().toISOString() };
         return { ...l, items: [...l.items, item] };
       });
       persist(updated);
@@ -71,6 +73,23 @@ export function ListsProvider({ children }: { children: React.ReactNode }) {
       const updated = lists.map((l) => {
         if (l.id !== listId) return l;
         return { ...l, items: l.items.filter((i) => i.id !== itemId) };
+      });
+      persist(updated);
+    },
+    [lists, persist],
+  );
+
+  const removeItemByText = useCallback(
+    (listName: string, itemText: string) => {
+      const updated = lists.map((l) => {
+        if (l.name.toLowerCase() !== listName.toLowerCase()) return l;
+        const idx = l.items.findIndex(
+          (i) => i.text.toLowerCase() === itemText.toLowerCase(),
+        );
+        if (idx === -1) return l;
+        const items = [...l.items];
+        items.splice(idx, 1);
+        return { ...l, items };
       });
       persist(updated);
     },
@@ -109,7 +128,7 @@ export function ListsProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ListsContext.Provider
-      value={{ lists, addList, removeList, addItem, removeItem, toggleItem, findOrCreateList }}
+      value={{ lists, addList, removeList, addItem, removeItem, removeItemByText, toggleItem, findOrCreateList }}
     >
       {children}
     </ListsContext.Provider>

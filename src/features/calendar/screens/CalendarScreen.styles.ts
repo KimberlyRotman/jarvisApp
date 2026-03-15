@@ -18,13 +18,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  backButton: {
+  menuButton: {
     padding: 8,
   },
-  backText: {
-    color: AppColors.accentYellow,
-    fontSize: 24,
-    fontWeight: '700',
+  menuIcon: {
+    width: 26,
+    height: 26,
   },
   headerTitle: {
     fontSize: 20,
@@ -32,44 +31,56 @@ export const styles = StyleSheet.create({
     color: AppColors.accentYellow,
     marginLeft: 12,
   },
-  eventItem: {
+  addHeaderButton: {
+    padding: 8,
+  },
+  addHeaderIcon: {
+    width: 24,
+    height: 24,
+  },
+  monthSection: {
+    marginTop: 16,
+  },
+  monthHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    paddingVertical: 10,
   },
-  dateBadge: {
-    width: 48,
-    height: 48,
-    borderRadius: 8,
-    backgroundColor: AppColors.accentDark,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 14,
-  },
-  dateDay: {
+  monthTitle: {
     color: AppColors.accentYellow,
     fontSize: 18,
     fontWeight: '700',
   },
-  dateMonth: {
+  dropdownArrow: {
     color: AppColors.accentYellow,
-    fontSize: 10,
-    textTransform: 'uppercase',
+    fontSize: 18,
+    fontWeight: '700',
   },
-  eventContent: {
+  card: {
+    backgroundColor: AppColors.accentDark,
+    borderRadius: 12,
+    marginHorizontal: 16,
+    marginTop: 8,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#3a3600',
+  },
+  cardContent: {
     flex: 1,
   },
-  eventTitle: {
-    color: AppColors.white,
+  cardTitle: {
+    color: '#b4b4b4',
     fontSize: 16,
+    fontFamily: 'Arimo_700Bold',
   },
-  eventTime: {
+  cardDate: {
     color: AppColors.gray,
     fontSize: 12,
-    marginTop: 2,
+    marginTop: 4,
   },
   deleteButton: {
     padding: 8,
@@ -84,53 +95,86 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 40,
   },
-  inputContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: AppColors.backgroundSecondary,
-    borderTopWidth: 1,
-    borderTopColor: '#333',
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  input: {
+  // Modal
+  modalOverlay: {
     flex: 1,
-    height: 42,
-    backgroundColor: AppColors.inputBackground,
-    borderRadius: 21,
-    paddingHorizontal: 16,
-    color: AppColors.white,
-    fontSize: 15,
-    borderWidth: 1,
-    borderColor: AppColors.grayLight,
-  },
-  inputSmall: {
-    flex: 1,
-    height: 42,
-    backgroundColor: AppColors.inputBackground,
-    borderRadius: 21,
-    paddingHorizontal: 16,
-    color: AppColors.white,
-    fontSize: 15,
-    borderWidth: 1,
-    borderColor: AppColors.grayLight,
-    marginRight: 8,
-  },
-  addButton: {
-    marginLeft: 10,
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: AppColors.accentYellow,
+    backgroundColor: 'rgba(0,0,0,0.7)',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 24,
   },
-  addButtonText: {
-    fontSize: 24,
+  modalContent: {
+    width: '100%',
+    backgroundColor: AppColors.backgroundSecondary,
+    borderRadius: 16,
+    padding: 24,
+    borderWidth: 1,
+    borderColor: AppColors.accentYellow,
+  },
+  modalTitle: {
+    color: AppColors.accentYellow,
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalInput: {
+    height: 44,
+    backgroundColor: '#333',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    color: AppColors.white,
+    fontSize: 15,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: AppColors.grayLight,
+  },
+  modalRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  modalInputHalf: {
+    flex: 1,
+    height: 44,
+    backgroundColor: '#333',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    color: AppColors.white,
+    fontSize: 15,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: AppColors.grayLight,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  modalCancel: {
+    flex: 1,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginRight: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: AppColors.grayLight,
+  },
+  modalCancelText: {
+    color: AppColors.gray,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  modalConfirm: {
+    flex: 1,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginLeft: 8,
+    borderRadius: 10,
+    backgroundColor: AppColors.accentYellow,
+  },
+  modalConfirmText: {
     color: AppColors.backgroundPrimary,
+    fontSize: 16,
     fontWeight: '700',
   },
 });

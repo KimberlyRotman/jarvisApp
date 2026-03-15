@@ -7,6 +7,7 @@ type TasksContextType = {
   tasks: Task[];
   addTask: (title: string, dueDate?: string) => void;
   removeTask: (id: string) => void;
+  removeTaskByTitle: (title: string) => void;
   toggleTask: (id: string) => void;
 };
 
@@ -14,6 +15,7 @@ export const TasksContext = createContext<TasksContextType>({
   tasks: [],
   addTask: () => {},
   removeTask: () => {},
+  removeTaskByTitle: () => {},
   toggleTask: () => {},
 });
 
@@ -35,7 +37,7 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
 
   const addTask = useCallback(
     (title: string, dueDate?: string) => {
-      const task: Task = { id: generateId(), title, done: false, dueDate };
+      const task: Task = { id: generateId(), title, done: false, dueDate, createdAt: new Date().toISOString() };
       persist([...tasks, task]);
     },
     [tasks, persist],
@@ -44,6 +46,19 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
   const removeTask = useCallback(
     (id: string) => {
       persist(tasks.filter((t) => t.id !== id));
+    },
+    [tasks, persist],
+  );
+
+  const removeTaskByTitle = useCallback(
+    (title: string) => {
+      const idx = tasks.findIndex(
+        (t) => t.title.toLowerCase() === title.toLowerCase(),
+      );
+      if (idx === -1) return;
+      const updated = [...tasks];
+      updated.splice(idx, 1);
+      persist(updated);
     },
     [tasks, persist],
   );
@@ -59,7 +74,7 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <TasksContext.Provider value={{ tasks, addTask, removeTask, toggleTask }}>
+    <TasksContext.Provider value={{ tasks, addTask, removeTask, removeTaskByTitle, toggleTask }}>
       {children}
     </TasksContext.Provider>
   );

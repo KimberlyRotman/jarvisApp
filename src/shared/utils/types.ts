@@ -2,6 +2,7 @@ export type ListItem = {
   id: string;
   text: string;
   checked: boolean;
+  createdAt: string; // ISO string
 };
 
 export type AppList = {
@@ -15,6 +16,7 @@ export type Task = {
   title: string;
   done: boolean;
   dueDate?: string;
+  createdAt: string; // ISO string
 };
 
 export type CalendarEvent = {
@@ -30,8 +32,18 @@ export type ChatMessage = {
   text: string;
 };
 
+export type AIAction =
+  | 'add_list'
+  | 'add_list_item'
+  | 'remove_list_item'
+  | 'add_task'
+  | 'remove_task'
+  | 'add_event'
+  | 'remove_event'
+  | 'message';
+
 export type AIResponse = {
-  action: 'add_list_item' | 'create_list' | 'add_task' | 'add_event' | 'message';
+  action: AIAction;
   listName?: string;
   itemText?: string;
   taskTitle?: string;

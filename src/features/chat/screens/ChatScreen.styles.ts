@@ -7,10 +7,8 @@ export const styles = StyleSheet.create({
     backgroundColor: AppColors.backgroundPrimary,
   },
   backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-    width: '100%',
-    height: '100%',
-    opacity: 0.08,
+    opacity: 0.06,
+    resizeMode: 'repeat',
   },
   header: {
     flexDirection: 'row',
@@ -26,7 +24,6 @@ export const styles = StyleSheet.create({
   menuIcon: {
     width: 26,
     height: 26,
-    tintColor: AppColors.accentYellow,
   },
   headerTitle: {
     fontSize: 20,

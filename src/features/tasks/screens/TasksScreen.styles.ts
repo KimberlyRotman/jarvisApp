@@ -18,13 +18,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  backButton: {
+  menuButton: {
     padding: 8,
   },
-  backText: {
-    color: AppColors.accentYellow,
-    fontSize: 24,
-    fontWeight: '700',
+  menuIcon: {
+    width: 26,
+    height: 26,
   },
   headerTitle: {
     fontSize: 20,
@@ -32,18 +31,28 @@ export const styles = StyleSheet.create({
     color: AppColors.accentYellow,
     marginLeft: 12,
   },
-  taskItem: {
+  addHeaderButton: {
+    padding: 8,
+  },
+  addHeaderIcon: {
+    width: 24,
+    height: 24,
+  },
+  card: {
+    backgroundColor: AppColors.accentDark,
+    borderRadius: 12,
+    marginHorizontal: 16,
+    marginTop: 12,
+    padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderWidth: 1,
+    borderColor: '#3a3600',
   },
   checkbox: {
     width: 22,
     height: 22,
-    borderRadius: 11,
+    borderRadius: 4,
     borderWidth: 2,
     borderColor: AppColors.accentYellow,
     marginRight: 14,
@@ -55,24 +64,25 @@ export const styles = StyleSheet.create({
   },
   checkMark: {
     color: AppColors.backgroundPrimary,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '700',
   },
-  taskContent: {
+  cardContent: {
     flex: 1,
   },
-  taskTitle: {
-    color: AppColors.white,
+  cardTitle: {
+    color: '#b4b4b4',
     fontSize: 16,
+    fontFamily: 'Arimo_700Bold',
   },
-  taskTitleDone: {
+  cardTitleDone: {
     textDecorationLine: 'line-through',
     color: AppColors.gray,
   },
-  taskDate: {
+  cardDate: {
     color: AppColors.gray,
     fontSize: 12,
-    marginTop: 2,
+    marginTop: 4,
   },
   deleteButton: {
     padding: 8,

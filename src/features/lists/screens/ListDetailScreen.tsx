@@ -1,5 +1,6 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { useLocalSearchParams } from 'expo-router';
+import React, { useCallback, useState } from 'react';
 import {
     FlatList,
     Image,
@@ -12,14 +13,28 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLists } from '../hooks/useLists';
 import { styles } from './ListDetailScreen.styles';
 
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mo = String(d.getMonth() + 1).padStart(2, '0');
+  const yy = d.getFullYear();
+  return `${hh}:${mm} — ${dd}/${mo}/${yy}`;
+}
+
 export default function ListDetailScreen() {
   const { listId } = useLocalSearchParams<{ listId: string }>();
-  const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { lists, addItem, removeItem, toggleItem } = useLists();
+  const navigation = useNavigation();
+  const { lists, addItem, removeItem } = useLists();
   const [newItemText, setNewItemText] = useState('');
 
   const list = lists.find((l) => l.id === listId);
+
+  const openDrawer = useCallback(() => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  }, [navigation]);
 
   const handleAddItem = () => {
     const text = newItemText.trim();
@@ -40,27 +55,33 @@ export default function ListDetailScreen() {
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
         <View style={styles.headerLeft}>
-          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-            <Text style={styles.backText}>←</Text>
+          <TouchableOpacity style={styles.menuButton} onPress={openDrawer}>
+            <Image
+              source={require('@/assets/images/hamburguer.png')}
+              style={styles.menuIcon}
+            />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>{list.name}</Text>
         </View>
+        <TouchableOpacity style={styles.addButton} onPress={() => setNewItemText('')}>
+          <Image
+            source={require('@/assets/images/AddListMenuIcon.png')}
+            style={styles.addIcon}
+          />
+        </TouchableOpacity>
       </View>
 
       <FlatList
         data={list.items}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.listItem}>
-            <TouchableOpacity
-              style={[styles.checkbox, item.checked && styles.checkboxChecked]}
-              onPress={() => toggleItem(listId, item.id)}
-            >
-              {item.checked && <Text style={styles.checkMark}>✓</Text>}
-            </TouchableOpacity>
-            <Text style={[styles.itemText, item.checked && styles.itemTextChecked]}>
-              {item.text}
-            </Text>
+          <View style={styles.card}>
+            <View style={styles.cardContent}>
+              <Text style={styles.cardTitle}>{item.text}</Text>
+              {item.createdAt && (
+                <Text style={styles.cardDate}>{formatDate(item.createdAt)}</Text>
+              )}
+            </View>
             <TouchableOpacity style={styles.deleteButton} onPress={() => removeItem(listId, item.id)}>
               <Image
                 source={require('@/assets/images/trashIconItem.png')}
@@ -70,6 +91,7 @@ export default function ListDetailScreen() {
           </View>
         )}
         ListEmptyComponent={<Text style={styles.emptyText}>Nenhum item ainda</Text>}
+        contentContainerStyle={{ paddingBottom: 12 }}
       />
 
       <View style={[styles.inputRow, { paddingBottom: insets.bottom + 12 }]}>

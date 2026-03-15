@@ -7,12 +7,14 @@ type CalendarContextType = {
   events: CalendarEvent[];
   addEvent: (title: string, date: string, time?: string) => void;
   removeEvent: (id: string) => void;
+  removeEventByTitle: (title: string) => void;
 };
 
 export const CalendarContext = createContext<CalendarContextType>({
   events: [],
   addEvent: () => {},
   removeEvent: () => {},
+  removeEventByTitle: () => {},
 });
 
 const STORAGE_KEY = '@jarvis_calendar';
@@ -46,8 +48,21 @@ export function CalendarProvider({ children }: { children: React.ReactNode }) {
     [events, persist],
   );
 
+  const removeEventByTitle = useCallback(
+    (title: string) => {
+      const idx = events.findIndex(
+        (e) => e.title.toLowerCase() === title.toLowerCase(),
+      );
+      if (idx === -1) return;
+      const updated = [...events];
+      updated.splice(idx, 1);
+      persist(updated);
+    },
+    [events, persist],
+  );
+
   return (
-    <CalendarContext.Provider value={{ events, addEvent, removeEvent }}>
+    <CalendarContext.Provider value={{ events, addEvent, removeEvent, removeEventByTitle }}>
       {children}
     </CalendarContext.Provider>
   );

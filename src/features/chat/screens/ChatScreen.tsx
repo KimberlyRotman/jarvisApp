@@ -29,9 +29,9 @@ export default function ChatScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
-  const { lists, findOrCreateList, addItem } = useLists();
-  const { addTask } = useTasks();
-  const { addEvent } = useCalendar();
+  const { lists, findOrCreateList, addItem, removeItemByText } = useLists();
+  const { addTask, removeTaskByTitle } = useTasks();
+  const { addEvent, removeEventByTitle } = useCalendar();
 
   const handleSend = useCallback(async () => {
     const text = input.trim();
@@ -46,8 +46,13 @@ export default function ChatScreen() {
       const listNames = lists.map((l) => l.name);
       const aiResponse = await sendMessageToAI(text, listNames);
 
-      // Process the AI response action
       switch (aiResponse.action) {
+        case 'add_list': {
+          if (aiResponse.listName) {
+            findOrCreateList(aiResponse.listName);
+          }
+          break;
+        }
         case 'add_list_item': {
           if (aiResponse.listName && aiResponse.itemText) {
             const listId = findOrCreateList(aiResponse.listName);
@@ -55,9 +60,9 @@ export default function ChatScreen() {
           }
           break;
         }
-        case 'create_list': {
-          if (aiResponse.listName) {
-            findOrCreateList(aiResponse.listName);
+        case 'remove_list_item': {
+          if (aiResponse.listName && aiResponse.itemText) {
+            removeItemByText(aiResponse.listName, aiResponse.itemText);
           }
           break;
         }
@@ -67,9 +72,21 @@ export default function ChatScreen() {
           }
           break;
         }
+        case 'remove_task': {
+          if (aiResponse.taskTitle) {
+            removeTaskByTitle(aiResponse.taskTitle);
+          }
+          break;
+        }
         case 'add_event': {
           if (aiResponse.eventTitle && aiResponse.eventDate) {
             addEvent(aiResponse.eventTitle, aiResponse.eventDate, aiResponse.eventTime);
+          }
+          break;
+        }
+        case 'remove_event': {
+          if (aiResponse.eventTitle) {
+            removeEventByTitle(aiResponse.eventTitle);
           }
           break;
         }
@@ -91,7 +108,7 @@ export default function ChatScreen() {
     } finally {
       setSending(false);
     }
-  }, [input, sending, lists, findOrCreateList, addItem, addTask, addEvent]);
+  }, [input, sending, lists, findOrCreateList, addItem, removeItemByText, addTask, removeTaskByTitle, addEvent, removeEventByTitle]);
 
   const openDrawer = useCallback(() => {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -107,6 +124,7 @@ export default function ChatScreen() {
         source={require('@/assets/images/hexagonos.png')}
         style={styles.container}
         imageStyle={styles.backgroundImage}
+        resizeMode="cover"
       >
         {/* Header */}
         <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
