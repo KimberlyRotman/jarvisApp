@@ -2,21 +2,21 @@ import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { useCalendar } from '@src/features/calendar/hooks/useCalendar';
 import { useLists } from '@src/features/lists/hooks/useLists';
 import { useTasks } from '@src/features/tasks/hooks/useTasks';
-import { sendMessageToAI } from '@src/services/openaiClient';
+import { sendMessageToAI } from '@src/services/geminiClient';
 import ProfileAvatar from '@src/shared/components/ProfileAvatar';
 import { generateId } from '@src/shared/utils/id';
 import type { ChatMessage } from '@src/shared/utils/types';
 import React, { useCallback, useRef, useState } from 'react';
 import {
-    FlatList,
-    Image,
-    ImageBackground,
-    KeyboardAvoidingView,
-    Platform,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ChatBubble from '../components/ChatBubble';
@@ -99,12 +99,14 @@ export default function ChatScreen() {
         text: aiResponse.reply,
       };
       setMessages((prev) => [...prev, aiMsg]);
-    } catch {
-      const errMsg: ChatMessage = {
+    } catch (error) {
+        console.log("Erro ao chamar IA:", error);
+
+        const errMsg: ChatMessage = {
         id: generateId(),
         role: 'assistant',
         text: 'Desculpe, ocorreu um erro. Tente novamente.',
-      };
+  };
       setMessages((prev) => [...prev, errMsg]);
     } finally {
       setSending(false);
