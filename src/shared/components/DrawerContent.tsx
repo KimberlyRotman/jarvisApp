@@ -121,8 +121,8 @@ export default function DrawerContent(props: DrawerContentComponentProps) {
           <Image
             source={require('@/assets/images/chatbutton.png')}
             style={styles.chatButtonIcon}
+            resizeMode="contain"
           />
-          <Text style={styles.chatButtonText}>CHAT</Text>
         </TouchableOpacity>
       </View>
     </View>

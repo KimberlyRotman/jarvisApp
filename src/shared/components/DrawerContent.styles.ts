@@ -99,14 +99,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   chatButtonIcon: {
-    width: 28,
-    height: 28,
-    marginRight: 10,
-  },
-  chatButtonText: {
-    color: AppColors.accentYellow,
-    fontSize: 18,
-    fontWeight: '700',
+    width: 48,
+    height: 48,
   },
   newListInput: {
     height: 38,

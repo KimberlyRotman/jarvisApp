@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   backgroundImage: {
     opacity: 0.06,
-    resizeMode: 'repeat',
+    resizeMode: 'repeat' as const,
   },
   header: {
     flexDirection: 'row',
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
     opacity: 0.4,
   },
   sendIcon: {
-    fontSize: 20,
-    color: AppColors.backgroundPrimary,
+    width: 22,
+    height: 22,
   },
 });

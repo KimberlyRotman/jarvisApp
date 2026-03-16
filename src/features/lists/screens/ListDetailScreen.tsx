@@ -1,4 +1,5 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native';
+import ProfileAvatar from '@src/shared/components/ProfileAvatar';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
@@ -63,12 +64,15 @@ export default function ListDetailScreen() {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>{list.name}</Text>
         </View>
-        <TouchableOpacity style={styles.addButton} onPress={() => setNewItemText('')}>
-          <Image
-            source={require('@/assets/images/AddListMenuIcon.png')}
-            style={styles.addIcon}
-          />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity style={styles.addButton} onPress={() => setNewItemText('')}>
+            <Image
+              source={require('@/assets/images/AddListMenuIcon.png')}
+              style={styles.addIcon}
+            />
+          </TouchableOpacity>
+          <ProfileAvatar />
+        </View>
       </View>
 
       <FlatList

@@ -1,4 +1,5 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native';
+import ProfileAvatar from '@src/shared/components/ProfileAvatar';
 import React, { useCallback, useState } from 'react';
 import {
     FlatList,
@@ -51,12 +52,15 @@ export default function TasksScreen() {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Tasks</Text>
         </View>
-        <TouchableOpacity style={styles.addHeaderButton}>
-          <Image
-            source={require('@/assets/images/AddListMenuIcon.png')}
-            style={styles.addHeaderIcon}
-          />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity style={styles.addHeaderButton}>
+            <Image
+              source={require('@/assets/images/AddListMenuIcon.png')}
+              style={styles.addHeaderIcon}
+            />
+          </TouchableOpacity>
+          <ProfileAvatar />
+        </View>
       </View>
 
       <FlatList

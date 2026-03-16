@@ -10,6 +10,7 @@ export type User = {
 
 type AuthContextType = {
   user: User | null;
+  token: string | null;
   isLoading: boolean;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -17,6 +18,7 @@ type AuthContextType = {
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
+  token: null,
   isLoading: true,
   signIn: async () => {},
   signOut: async () => {},
@@ -41,14 +43,16 @@ async function fetchGoogleUserInfo(token: string): Promise<User> {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
-        const token = await AsyncStorage.getItem(TOKEN_KEY);
+        const savedToken = await AsyncStorage.getItem(TOKEN_KEY);
         const storedUser = await AsyncStorage.getItem(USER_KEY);
-        if (token && storedUser) {
+        if (savedToken && storedUser) {
+          setToken(savedToken);
           setUser(JSON.parse(storedUser));
         }
       } catch {
@@ -60,21 +64,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     })();
   }, []);
 
-  const signIn = useCallback(async (token: string) => {
-    const userInfo = await fetchGoogleUserInfo(token);
-    await AsyncStorage.setItem(TOKEN_KEY, token);
+  const signIn = useCallback(async (accessToken: string) => {
+    const userInfo = await fetchGoogleUserInfo(accessToken);
+    await AsyncStorage.setItem(TOKEN_KEY, accessToken);
     await AsyncStorage.setItem(USER_KEY, JSON.stringify(userInfo));
+    setToken(accessToken);
     setUser(userInfo);
   }, []);
 
   const signOut = useCallback(async () => {
     await AsyncStorage.removeItem(TOKEN_KEY);
     await AsyncStorage.removeItem(USER_KEY);
+    setToken(null);
     setUser(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, token, isLoading, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

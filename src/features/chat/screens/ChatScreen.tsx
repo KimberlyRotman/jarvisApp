@@ -3,6 +3,7 @@ import { useCalendar } from '@src/features/calendar/hooks/useCalendar';
 import { useLists } from '@src/features/lists/hooks/useLists';
 import { useTasks } from '@src/features/tasks/hooks/useTasks';
 import { sendMessageToAI } from '@src/services/openaiClient';
+import ProfileAvatar from '@src/shared/components/ProfileAvatar';
 import { generateId } from '@src/shared/utils/id';
 import type { ChatMessage } from '@src/shared/utils/types';
 import React, { useCallback, useRef, useState } from 'react';
@@ -124,7 +125,6 @@ export default function ChatScreen() {
         source={require('@/assets/images/hexagonos.png')}
         style={styles.container}
         imageStyle={styles.backgroundImage}
-        resizeMode="cover"
       >
         {/* Header */}
         <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
@@ -135,6 +135,7 @@ export default function ChatScreen() {
             />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Jarvis</Text>
+          <ProfileAvatar />
         </View>
 
         {/* Messages */}
@@ -169,7 +170,10 @@ export default function ChatScreen() {
             disabled={sending || !input.trim()}
             activeOpacity={0.7}
           >
-            <Text style={styles.sendIcon}>✈</Text>
+            <Image
+              source={require('@/assets/images/sendicon.png')}
+              style={styles.sendIcon}
+            />
           </TouchableOpacity>
         </View>
       </ImageBackground>

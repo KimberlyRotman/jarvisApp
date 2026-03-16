@@ -22,7 +22,7 @@ export default function LoginScreen() {
     clientId: GOOGLE_CLIENT_IDS.web,
     iosClientId: GOOGLE_CLIENT_IDS.ios,
     androidClientId: GOOGLE_CLIENT_IDS.android,
-    scopes: ['profile', 'email'],
+    scopes: ['profile', 'email', 'https://www.googleapis.com/auth/drive.appdata'],
   });
 
   useEffect(() => {

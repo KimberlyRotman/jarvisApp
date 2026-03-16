@@ -9,9 +9,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useAuth } from '@src/features/auth/hooks/useAuth';
 import { AuthProvider } from '@src/features/auth/store/authContext';
-import { CalendarProvider } from '@src/features/calendar/store/calendarContext';
-import { ListsProvider } from '@src/features/lists/store/listsContext';
-import { TasksProvider } from '@src/features/tasks/store/tasksContext';
+import { DataProvider } from '@src/store/dataContext';
 
 function RootNavigator() {
   const { user, isLoading } = useAuth();
@@ -60,16 +58,12 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <ListsProvider>
-        <TasksProvider>
-          <CalendarProvider>
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <RootNavigator />
-              <StatusBar style="light" />
-            </ThemeProvider>
-          </CalendarProvider>
-        </TasksProvider>
-      </ListsProvider>
+      <DataProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <RootNavigator />
+          <StatusBar style="light" />
+        </ThemeProvider>
+      </DataProvider>
     </AuthProvider>
   );
 }

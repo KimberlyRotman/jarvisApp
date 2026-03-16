@@ -1,4 +1,5 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native';
+import ProfileAvatar from '@src/shared/components/ProfileAvatar';
 import type { CalendarEvent } from '@src/shared/utils/types';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
@@ -90,12 +91,15 @@ export default function CalendarScreen() {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Calendário</Text>
         </View>
-        <TouchableOpacity style={styles.addHeaderButton} onPress={() => setShowModal(true)}>
-          <Image
-            source={require('@/assets/images/AddListMenuIcon.png')}
-            style={styles.addHeaderIcon}
-          />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity style={styles.addHeaderButton} onPress={() => setShowModal(true)}>
+            <Image
+              source={require('@/assets/images/AddListMenuIcon.png')}
+              style={styles.addHeaderIcon}
+            />
+          </TouchableOpacity>
+          <ProfileAvatar />
+        </View>
       </View>
 
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>

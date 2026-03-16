@@ -2,8 +2,8 @@ import { AIResponse } from '@src/shared/utils/types';
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
-// Replace with your OpenAI API key
-const OPENAI_API_KEY = 'process.env.EXPO_PUBLIC_OPENAI_KEY';
+// Set EXPO_PUBLIC_OPENAI_KEY in your .env file
+const OPENAI_API_KEY = process.env.EXPO_PUBLIC_OPENAI_KEY ?? '';
 
 const SYSTEM_PROMPT = `Você é um parser de comandos para um assistente pessoal inteligente.
 O usuário vai enviar mensagens em linguagem natural.
