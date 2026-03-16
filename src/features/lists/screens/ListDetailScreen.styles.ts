@@ -105,8 +105,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addItemIcon: {
-    width: 20,
-    height: 20,
-    tintColor: AppColors.backgroundPrimary,
+    width: 22,
+    height: 22,
   },
 });

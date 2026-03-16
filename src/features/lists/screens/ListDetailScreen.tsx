@@ -110,7 +110,7 @@ export default function ListDetailScreen() {
         />
         <TouchableOpacity style={styles.addItemButton} onPress={handleAddItem}>
           <Image
-            source={require('@/assets/images/addItemListIcon.png')}
+            source={require('@/assets/images/sendicon.png')}
             style={styles.addItemIcon}
           />
         </TouchableOpacity>
