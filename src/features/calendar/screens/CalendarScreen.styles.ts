@@ -145,6 +145,34 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: AppColors.grayLight,
   },
+  pickerLabel: {
+    color: AppColors.accentYellow,
+    fontSize: 14,
+    fontWeight: '700',
+    marginBottom: 8,
+    marginTop: 4,
+  },
+  pickerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    gap: 12,
+    marginBottom: 16,
+  },
+  pickerColumn: {
+    alignItems: 'center',
+  },
+  pickerColumnLabel: {
+    color: AppColors.gray,
+    fontSize: 12,
+    marginBottom: 4,
+  },
+  pickerSeparator: {
+    color: AppColors.white,
+    fontSize: 24,
+    fontWeight: '700',
+    paddingBottom: 45,
+  },
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',

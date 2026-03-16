@@ -3,15 +3,16 @@ import ProfileAvatar from '@src/shared/components/ProfileAvatar';
 import type { CalendarEvent } from '@src/shared/utils/types';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
-    Image,
-    Modal,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  Modal,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ScrollPicker from '../components/ScrollPicker';
 import { useCalendar } from '../hooks/useCalendar';
 import { styles } from './CalendarScreen.styles';
 
@@ -19,6 +20,12 @@ const MONTH_NAMES = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ];
+
+const DAYS = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0'));
+const MONTHS = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
+const YEARS = Array.from({ length: 11 }, (_, i) => String(2025 + i));
+const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
+const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
 
 type MonthGroup = {
   key: string;
@@ -33,8 +40,11 @@ export default function CalendarScreen() {
   const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({});
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
+  const [dayIndex, setDayIndex] = useState(0);
+  const [monthIndex, setMonthIndex] = useState(0);
+  const [yearIndex, setYearIndex] = useState(1); // 2026
+  const [hourIndex, setHourIndex] = useState(12);
+  const [minuteIndex, setMinuteIndex] = useState(0);
 
   const openDrawer = useCallback(() => {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -63,12 +73,16 @@ export default function CalendarScreen() {
 
   const handleAdd = () => {
     const t = title.trim();
-    const d = date.trim();
-    if (!t || !d) return;
-    addEvent(t, d, time.trim() || undefined);
+    if (!t) return;
+    const d = `${YEARS[yearIndex]}-${MONTHS[monthIndex]}-${DAYS[dayIndex]}`;
+    const tm = `${HOURS[hourIndex]}:${MINUTES[minuteIndex]}`;
+    addEvent(t, d, tm);
     setTitle('');
-    setDate('');
-    setTime('');
+    setDayIndex(0);
+    setMonthIndex(0);
+    setYearIndex(1);
+    setHourIndex(12);
+    setMinuteIndex(0);
     setShowModal(false);
   };
 
@@ -145,22 +159,36 @@ export default function CalendarScreen() {
               value={title}
               onChangeText={setTitle}
             />
-            <View style={styles.modalRow}>
-              <TextInput
-                style={styles.modalInputHalf}
-                placeholder="Data (YYYY-MM-DD)"
-                placeholderTextColor="#888"
-                value={date}
-                onChangeText={setDate}
-              />
-              <TextInput
-                style={styles.modalInputHalf}
-                placeholder="Hora (HH:mm)"
-                placeholderTextColor="#888"
-                value={time}
-                onChangeText={setTime}
-              />
+
+            <Text style={styles.pickerLabel}>Data</Text>
+            <View style={styles.pickerRow}>
+              <View style={styles.pickerColumn}>
+                <Text style={styles.pickerColumnLabel}>Dia</Text>
+                <ScrollPicker values={DAYS} selectedIndex={dayIndex} onValueChange={setDayIndex} width={60} />
+              </View>
+              <View style={styles.pickerColumn}>
+                <Text style={styles.pickerColumnLabel}>Mês</Text>
+                <ScrollPicker values={MONTHS} selectedIndex={monthIndex} onValueChange={setMonthIndex} width={60} />
+              </View>
+              <View style={styles.pickerColumn}>
+                <Text style={styles.pickerColumnLabel}>Ano</Text>
+                <ScrollPicker values={YEARS} selectedIndex={yearIndex} onValueChange={setYearIndex} width={80} />
+              </View>
             </View>
+
+            <Text style={styles.pickerLabel}>Hora</Text>
+            <View style={styles.pickerRow}>
+              <View style={styles.pickerColumn}>
+                <Text style={styles.pickerColumnLabel}>Hora</Text>
+                <ScrollPicker values={HOURS} selectedIndex={hourIndex} onValueChange={setHourIndex} width={60} />
+              </View>
+              <Text style={styles.pickerSeparator}>:</Text>
+              <View style={styles.pickerColumn}>
+                <Text style={styles.pickerColumnLabel}>Min</Text>
+                <ScrollPicker values={MINUTES} selectedIndex={minuteIndex} onValueChange={setMinuteIndex} width={60} />
+              </View>
+            </View>
+
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.modalCancel} onPress={() => setShowModal(false)}>
                 <Text style={styles.modalCancelText}>Cancelar</Text>
