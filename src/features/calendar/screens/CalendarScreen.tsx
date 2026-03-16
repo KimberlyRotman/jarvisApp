@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ScrollPicker from '../components/ScrollPicker';
 import { useCalendar } from '../hooks/useCalendar';
@@ -149,6 +150,7 @@ export default function CalendarScreen() {
 
       {/* Add Event Modal */}
       <Modal visible={showModal} transparent animationType="fade">
+        <GestureHandlerRootView style={{ flex: 1 }}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Novo Evento</Text>
@@ -199,6 +201,7 @@ export default function CalendarScreen() {
             </View>
           </View>
         </View>
+        </GestureHandlerRootView>
       </Modal>
     </View>
   );
