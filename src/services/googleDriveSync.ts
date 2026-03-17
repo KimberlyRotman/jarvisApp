@@ -57,7 +57,6 @@ export async function saveToDrive(token: string, data: JarvisData): Promise<void
   const fileId = await findDataFile(token);
 
   if (fileId) {
-    // Update existing file
     await fetch(`${DRIVE_UPLOAD_URL}/${fileId}?uploadType=media`, {
       method: 'PATCH',
       headers: {
@@ -67,7 +66,6 @@ export async function saveToDrive(token: string, data: JarvisData): Promise<void
       body: JSON.stringify(data),
     });
   } else {
-    // Create new file in appDataFolder
     const metadata = {
       name: DATA_FILENAME,
       parents: ['appDataFolder'],

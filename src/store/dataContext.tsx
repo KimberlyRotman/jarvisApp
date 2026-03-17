@@ -5,17 +5,15 @@ import { loadFromDrive, saveToDrive } from '@src/services/googleDriveSync';
 import { generateId } from '@src/shared/utils/id';
 import type { AppList, CalendarEvent, ListItem, Task } from '@src/shared/utils/types';
 import React, {
-    createContext,
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 
-// ── Context types ──────────────────────────────────────────
 type DataContextType = {
-  // Lists
   lists: AppList[];
   addList: (name: string) => void;
   removeList: (id: string) => void;
@@ -24,13 +22,13 @@ type DataContextType = {
   removeItemByText: (listName: string, itemText: string) => void;
   toggleItem: (listId: string, itemId: string) => void;
   findOrCreateList: (name: string) => string;
-  // Tasks
+
   tasks: Task[];
   addTask: (title: string, dueDate?: string) => void;
   removeTask: (id: string) => void;
   removeTaskByTitle: (title: string) => void;
   toggleTask: (id: string) => void;
-  // Calendar
+  
   events: CalendarEvent[];
   addEvent: (title: string, date: string, time?: string) => void;
   removeEvent: (id: string) => void;
@@ -53,18 +51,14 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const dataRef = useRef<JarvisData>({ lists: [], tasks: [], events: [] });
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ── Persist helper: writes to local cache + schedules Drive sync ──
   const persist = useCallback(
     (next: JarvisData) => {
       dataRef.current = next;
-      // Always update local cache immediately
       AsyncStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(next));
-      // Debounce the Drive write to avoid excessive API calls
       if (saveTimer.current) clearTimeout(saveTimer.current);
       if (token) {
         saveTimer.current = setTimeout(() => {
           saveToDrive(token, dataRef.current).catch(() => {
-            // Silent fail – local cache is the safety net
           });
         }, 1500);
       }
