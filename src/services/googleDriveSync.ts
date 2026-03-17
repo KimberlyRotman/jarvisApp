@@ -57,7 +57,7 @@ export async function saveToDrive(token: string, data: JarvisData): Promise<void
   const fileId = await findDataFile(token);
 
   if (fileId) {
-    await fetch(`${DRIVE_UPLOAD_URL}/${fileId}?uploadType=media`, {
+    const res = await fetch(`${DRIVE_UPLOAD_URL}/${fileId}?uploadType=media`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -65,6 +65,12 @@ export async function saveToDrive(token: string, data: JarvisData): Promise<void
       },
       body: JSON.stringify(data),
     });
+
+    if (!res.ok) {
+      console.warn('Drive save failed (update)', res.status, res.statusText);
+    } else {
+      console.log('Drive save success (update)');
+    }
   } else {
     const metadata = {
       name: DATA_FILENAME,
@@ -81,7 +87,7 @@ export async function saveToDrive(token: string, data: JarvisData): Promise<void
       `${JSON.stringify(data)}\r\n` +
       `--${boundary}--`;
 
-    await fetch(`${DRIVE_UPLOAD_URL}?uploadType=multipart`, {
+    const res = await fetch(`${DRIVE_UPLOAD_URL}?uploadType=multipart`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -89,5 +95,11 @@ export async function saveToDrive(token: string, data: JarvisData): Promise<void
       },
       body,
     });
+
+    if (!res.ok) {
+      console.warn('Drive save failed (create)', res.status, res.statusText);
+    } else {
+      console.log('Drive save success (create)');
+    }
   }
 }
